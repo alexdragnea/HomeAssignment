@@ -17,7 +17,7 @@ public class FirstProblemController {
 
     @PostMapping("/first/words/save")
     public ResponseEntity<Void> saveWords(@RequestBody FirstProblemRequest firstProblemRequest) {
-        firstProblemService.saveWords(firstProblemRequest.getWords());
+        firstProblemService.saveWords(firstProblemRequest.getWords()).join();
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)

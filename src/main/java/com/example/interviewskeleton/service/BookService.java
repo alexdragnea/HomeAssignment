@@ -11,8 +11,8 @@ public class BookService {
     private final BookRepository bookRepository;
 
     public Book addBook(Book book) {
-        book.generateProductCode();
         book.generateSeoName();
+        book.generateProductCode();
 
         return bookRepository.save(book);
     }

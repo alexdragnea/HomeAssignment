@@ -19,15 +19,11 @@ public class FirstProblemService {
     }
 
     private void processWord(String word) {
-        try {
-            if (word.contains(FORBIDDEN_CHARACTER)) {
-                throw new UnsupportedOperationException("This word is not valid: " + word);
-            }
-
-            saveWordToExternalApi(word);
-        } catch (Exception e) {
-            throw e;
+        if (word.contains(FORBIDDEN_CHARACTER)) {
+            throw new UnsupportedOperationException("This word is not valid: " + word);
         }
+
+        saveWordToExternalApi(word);
     }
 
     private void saveWordToExternalApi(String word) {
