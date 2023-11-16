@@ -14,18 +14,19 @@ public class FirstProblemService {
     public CompletableFuture<Void> saveWords(List<String> words) {
 
         return CompletableFuture.allOf(words.stream()
-                .map(word -> CompletableFuture.runAsync(() -> processWord(word))).toArray(CompletableFuture[]::new));
+                .map(word -> CompletableFuture.runAsync(() -> processWord(word)))
+                .toArray(CompletableFuture[]::new));
     }
 
     private void processWord(String word) {
         try {
             if (word.contains(FORBIDDEN_CHARACTER)) {
-                throw new UnsupportedOperationException("This word is not valid!");
+                throw new UnsupportedOperationException("This word is not valid: " + word);
             }
 
             saveWordToExternalApi(word);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw e;
         }
     }
 

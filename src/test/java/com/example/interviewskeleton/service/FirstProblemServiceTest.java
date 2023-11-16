@@ -4,7 +4,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -34,6 +37,14 @@ class FirstProblemServiceTest {
     void testSaveWordsValidationFailure() {
         List<String> words = List.of("test", "worda", "without", "letter", "A");
 
-        assertThrows(UnsupportedOperationException.class, () -> service.saveWords(words), "This word is not valid: worda");
+        Throwable thrown = assertThrows(CompletionException.class, () -> {
+            CompletableFuture<Void> future = service.saveWords(words);
+            future.join();
+        });
+
+        Throwable actualCause = thrown.getCause();
+
+        assertTrue(actualCause instanceof UnsupportedOperationException);
+        assertEquals("This word is not valid: worda", actualCause.getMessage());
     }
 }
