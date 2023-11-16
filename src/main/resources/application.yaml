@@ -11,3 +11,11 @@ greeting:
   evening:
     en: "Good evening, {name}!"
     es: "¡Buenas noches, {name}!"
+
+api:
+  auth:
+    secret: such-secure-much-wow
+    header:
+      name: X-Auth-Token
+
+logging.level.org.springframework.security: DEBUG
