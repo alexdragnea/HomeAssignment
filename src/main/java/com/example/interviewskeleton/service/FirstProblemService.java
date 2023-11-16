@@ -5,21 +5,28 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
 public class FirstProblemService {
     private static final String FORBIDDEN_CHARACTER = "a";
 
-    public void saveWords(List<String> words) {
-        words.forEach(word -> {
+    public CompletableFuture<Void> saveWords(List<String> words) {
+
+        return CompletableFuture.allOf(words.stream()
+                .map(word -> CompletableFuture.runAsync(() -> processWord(word))).toArray(CompletableFuture[]::new));
+    }
+
+    private void processWord(String word) {
+        try {
             if (word.contains(FORBIDDEN_CHARACTER)) {
                 throw new UnsupportedOperationException("This word is not valid!");
             }
 
             saveWordToExternalApi(word);
-        });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void saveWordToExternalApi(String word) {
