@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,12 +17,14 @@ import org.springframework.security.web.authentication.preauth.RequestHeaderAuth
 import org.springframework.security.web.header.HeaderWriterFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
+
 
     private final RequestHeaderAuthenticationProvider requestHeaderAuthenticationProvider;
 
@@ -30,17 +33,17 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf(AbstractHttpConfigurer::disable).cors(AbstractHttpConfigurer::disable)
-                .sessionManagement(
-                        session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(requestHeaderAuthenticationFilter(), HeaderWriterFilter.class)
-                .authorizeHttpRequests(auth ->
-                        auth.requestMatchers("/**")
-                                .permitAll()
-                                .requestMatchers("/greet/**")
-                                .permitAll()
-                                .anyRequest()
-                                .authenticated()).anonymous(anonymous -> anonymous.disable());
+        http.cors().and().csrf()
+                .disable()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .addFilterAfter(requestHeaderAuthenticationFilter(), HeaderWriterFilter.class)
+                .authorizeHttpRequests()
+                .antMatchers(HttpMethod.POST,"/**").permitAll()
+                .antMatchers("/greet/**").authenticated().and()
+                .exceptionHandling().authenticationEntryPoint((request, response, authException) ->
+                        response.sendError(HttpServletResponse.SC_FORBIDDEN));
 
         return http.build();
     }

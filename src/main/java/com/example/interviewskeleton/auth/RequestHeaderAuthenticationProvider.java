@@ -1,6 +1,6 @@
 package com.example.interviewskeleton.auth;
 
-import io.micrometer.common.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
