@@ -3,8 +3,7 @@
 
 I tried to implement the bonus task without changing sprin boot version but something is not working right. I've switched to spring boot 2 and the implementation is working fine. 
 
-I left the impl with spring boot 3 on [this branch](https://github.com/alexdragnea/HomeAssignment/tree/BonusTask_Try_to_impl_spring_security_with_boot3), it is basically the same and not working, if I move on I would love to know the problem and why is not working :).
-
+I left the impl with spring boot 3 aka Spring Security 6 on [this branch](https://github.com/alexdragnea/HomeAssignment/tree/BonusTask_Try_to_impl_spring_security_with_boot3), it is basically the same but not working properly.
 # Interview Screening Test
 
 Welcome to the interview screening. 
