@@ -1,7 +1,6 @@
 package com.example.interviewskeleton.enums;
 
 import com.example.interviewskeleton.exception.greeting.UnsupportedLocaleEx;
-import com.fasterxml.jackson.annotation.JsonCreator;
 
 import java.util.Arrays;
 
@@ -19,7 +18,6 @@ public enum LocaleEnum {
         return value;
     }
 
-    @JsonCreator
     public static LocaleEnum fromValue(String value) {
         return Arrays.stream(values())
                 .filter(enumValue -> enumValue.getValue().equalsIgnoreCase(value))

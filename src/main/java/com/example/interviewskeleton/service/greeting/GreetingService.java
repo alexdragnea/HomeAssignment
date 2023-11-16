@@ -31,14 +31,11 @@ public class GreetingService {
         LocalTime now = LocalTime.now();
 
         String greeting;
-        if (now.isBefore(LocalTime.NOON)) {
-            greeting = (locale == LocaleEnum.EN) ? morningEn : morningEs;
-        } else if (now.isBefore(LocalTime.of(17, 0))) {
-            greeting = (locale == LocaleEnum.EN) ? afternoonEn : afternoonEs;
-        } else {
-            greeting = (locale == LocaleEnum.EN) ? eveningEn : eveningEs;
-        }
+        if (now.isBefore(LocalTime.NOON)) greeting = (locale == LocaleEnum.EN) ? morningEn : morningEs;
+        else if (now.isBefore(LocalTime.of(17, 0))) greeting = (locale == LocaleEnum.EN) ? afternoonEn : afternoonEs;
+        else greeting = (locale == LocaleEnum.EN) ? eveningEn : eveningEs;
 
         return greeting.replace("{name}", name);
     }
+
 }
